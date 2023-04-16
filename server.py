@@ -1,7 +1,7 @@
 import json
 from dotenv import dotenv_values
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from dscrd import notifier, not_async_notifier
+from dscrd import notifier, client
 import asyncio
 
 
@@ -20,7 +20,7 @@ class MyRequestHandler(BaseHTTPRequestHandler):
             status_code = 200
             status = "success"
             # proc = asyncio.create_task(run_notifier(data))
-            not_async_notifier(data)
+            client.loop.create_task(notifier(data))
 
         except json.decoder.JSONDecodeError:
             status_code = 400
