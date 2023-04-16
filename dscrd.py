@@ -6,7 +6,7 @@ import asyncio
 
 
 
-client = commands.Bot(command_prefix = '/')
+client = commands.Bot(command_prefix = '!')
 
 running = True
 
@@ -17,20 +17,9 @@ notification_channel = int(config["DISCORD_CHANNEL"])
 #-----------------------------------------------------------------------------------------
 
 
-# décorateur pour les coroutines (équivalent des promesses en JS):
-@client.event # Pour dire que la fonction on_ready est une fonction d'événements.
-async def on_ready() -> None: # lorsque l'on a lancé le bot par client.run()
-    
+@client.event
+async def on_ready() -> None:
     print("Bot ready")
-    await notifier("coucoue")
-
-    # async def issou():
-    #     while True:
-    #         if running:
-    #             await prg()
-    #         await asyncio.sleep(60)
-    
-    # prog = asyncio.create_task(issou())
 
 
 #---------------------------------------COMMANDS-----------------------------------------
@@ -86,10 +75,10 @@ async def clear(context:commands.Context, nb) -> None: # delete the last nb mess
 async def notifier(msg:str) -> None:
     print("message:", msg)
     channel: discord.TextChannel = client.get_channel(notification_channel)
-    await channel.send(msg)
-    # await clean_old_msgs(channel)
-    # if not await already_sent(msg, channel):
-    #     await send_msg(msg)
+
+    await clean_old_msgs(channel)
+    if not await already_sent(msg, channel):
+        await send_msg(msg)
 
 
 async def send_msg(msg:str) -> None:
