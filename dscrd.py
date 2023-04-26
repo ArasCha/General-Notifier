@@ -19,6 +19,7 @@ notification_channel = int(config["DISCORD_CHANNEL"])
 
 @client.event
 async def on_ready() -> None:
+
     print("Bot ready")
 
 
@@ -97,7 +98,7 @@ async def get_previous_msgs(channel: discord.TextChannel) -> list[discord.Messag
 
 async def clean_old_msgs(channel: discord.TextChannel):
     
-    messages = await asyncio.create_task(get_previous_msgs(channel))
+    messages = await get_previous_msgs(channel)
 
     for msg in messages:
         now = datetime.now()
@@ -118,10 +119,6 @@ async def already_sent(msg:str, channel:discord.TextChannel) -> bool:
     return False
 
 
-def not_async_notifier(msg:str):
-    asyncio.run(notifier(msg))
-
-
 def set_running(val:bool) -> None:
     import dscrd as ds
     ds.running = val
@@ -130,5 +127,9 @@ def set_running(val:bool) -> None:
 # ---------------------------------------------------------------------------
 
 
-def start():
+def starte():
     client.run(config["DISCORD_BOT_TOKEN"])
+    # return client.start(config["DISCORD_BOT_TOKEN"])
+
+# manage the discord.errors.HTTPException
+# try with multiprocessing

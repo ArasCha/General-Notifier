@@ -1,8 +1,6 @@
 import json
 from dotenv import dotenv_values
 from flask import Flask, request
-from dscrd import notifier, client
-
 
 app = Flask(__name__)
 
@@ -10,6 +8,7 @@ app = Flask(__name__)
 @app.route("/", methods=["POST"])
 def handle_post_request():
     content = request.get_data().decode("utf-8")
+    from dscrd import notifier, client
 
     try:
         data = json.loads(content)
@@ -34,4 +33,5 @@ def run():
 
     app.run(port=PORT, host=HOST)
 
-    # client request example: curl -X POST -H "Content-Type: application/json" -H "Accept-Charset: utf-8" -d '{"key": "😘"}' http://localhost:8889
+    # client request example:
+    # curl -X POST -H "Content-Type: application/json" -H "Accept-Charset: utf-8" -d '{"message":"qsldkf", "authorization":"mdrrr"}' http://localhost:8889
