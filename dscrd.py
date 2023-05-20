@@ -2,7 +2,6 @@ import discord
 from datetime import datetime
 from dotenv import dotenv_values
 from discord.ext import commands
-import asyncio
 
 
 
@@ -124,6 +123,3 @@ def set_running(val:bool) -> None:
 def starte():
     client.run(config["DISCORD_BOT_TOKEN"])
     # return client.start(config["DISCORD_BOT_TOKEN"])
-
-# manage the discord.errors.HTTPException
-# try with multiprocessing

@@ -1,4 +1,3 @@
-import asyncio
 from dscrd import starte
 from server import run
 
