@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 
 @app.route("/", methods=["POST"])
-def handle_post_request():
+async def handle_post_request():
     content = request.get_data().decode("utf-8")
     from dscrd import notifier, client
 
@@ -15,8 +15,12 @@ def handle_post_request():
         if data["authorization"] != dotenv_values(".env")["AUTHORIZATION_TOKEN"]:
             return 'Bad authorization token'
         try:
-            client.loop.create_task(notifier(data["message"]))
-        except:
+            await notifier(data["message"])
+            # client.loop.create_task(notifier(data["message"]))
+            # will be the same thing, just remove the async before function name
+
+        except Exception as e:
+            print(e)
             return "Server error. The Discord bot might not be launched"
 
     except:
