@@ -1,6 +1,7 @@
 import json
 from dotenv import dotenv_values
 from flask import Flask, request
+import asyncio
 
 app = Flask(__name__)
 
@@ -15,9 +16,7 @@ def handle_post_request():
         if data["authorization"] != dotenv_values(".env")["AUTHORIZATION_TOKEN"]:
             return 'Bad authorization token'
         try:
-            # await notifier(data["message"])
-            client.loop.create_task(notifier(data["message"]))
-            # will be the same thing, just remove the async before function name
+            asyncio.run_coroutine_threadsafe(notifier(data["message"]), client.loop)
 
         except Exception as e:
             print(e)
