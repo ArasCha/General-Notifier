@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 
 @app.route("/", methods=["POST"])
-async def handle_post_request():
+def handle_post_request():
     content = request.get_data().decode("utf-8")
     from dscrd import notifier, client
 
@@ -15,8 +15,8 @@ async def handle_post_request():
         if data["authorization"] != dotenv_values(".env")["AUTHORIZATION_TOKEN"]:
             return 'Bad authorization token'
         try:
-            await notifier(data["message"])
-            # client.loop.create_task(notifier(data["message"]))
+            # await notifier(data["message"])
+            client.loop.create_task(notifier(data["message"]))
             # will be the same thing, just remove the async before function name
 
         except Exception as e:
