@@ -122,4 +122,3 @@ def set_running(val:bool) -> None:
 
 def starte():
     client.run(config["DISCORD_BOT_TOKEN"])
-    # return client.start(config["DISCORD_BOT_TOKEN"])

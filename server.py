@@ -2,6 +2,9 @@ import json
 from dotenv import dotenv_values
 from flask import Flask, request
 import asyncio
+import time
+from discord.errors import HTTPException
+
 
 app = Flask(__name__)
 
@@ -35,6 +38,3 @@ def run():
     PORT = int(env["LISTENER_PORT"])
 
     app.run(port=PORT, host=HOST)
-
-    # client request example:
-    # curl -X POST -H "Content-Type: application/json" -H "Accept-Charset: utf-8" -d '{"message":"qsldkf", "authorization":"mdrrr"}' http://localhost:8889
