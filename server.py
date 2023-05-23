@@ -2,8 +2,6 @@ import json
 from dotenv import dotenv_values
 from flask import Flask, request
 import asyncio
-import time
-from discord.errors import HTTPException
 
 
 app = Flask(__name__)

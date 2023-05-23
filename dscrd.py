@@ -2,6 +2,7 @@ import discord
 from datetime import datetime
 from dotenv import dotenv_values
 from discord.ext import commands
+import asyncio
 
 
 
@@ -57,8 +58,7 @@ async def start(context:commands.Context) -> None:
 @client.command()
 async def clear(context:commands.Context, nb) -> None: # delete the last nb messages
 
-    channel: discord.TextChannel = client.get_channel(notification_channel)
-    messages: list[discord.Message] = await get_previous_msgs(channel)
+    messages: list[discord.Message] = await get_previous_msgs(context.channel)
 
     nb = int(nb)
 
@@ -66,7 +66,12 @@ async def clear(context:commands.Context, nb) -> None: # delete the last nb mess
         nb = len(messages)
 
     for i in range(nb):
-        await messages[i].delete()
+        try:
+            await messages[i].delete()
+        except discord.errors.HTTPException:
+            print("discord.errors.HTTPException: currently waiting and retrying")
+            await asyncio.sleep(5)
+            await messages[i].delete()
 
 
 #-------------------------------------NOTIFIER-----------------------------------------
