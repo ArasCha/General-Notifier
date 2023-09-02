@@ -23,8 +23,8 @@ def handle_post_request():
             print(e)
             return "Server error. The Discord bot might not be launched"
 
-    except:
-        return 'Send JSON data in the format {"message":"...", "authorization":"..."}'
+    except Exception as e:
+        return 'Send JSON data in the format {"message":"...", "authorization":"..."}:' + f"\n{e}"
 
     return "OK"
 
