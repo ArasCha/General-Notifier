@@ -4,7 +4,7 @@
     "builder": "NIXPACKS"
   },
   "deploy": {
-	"startCommand": "echo 'DISCORD_BOT_TOKEN=$DISCORD_BOT_TOKEN' >> .env && echo 'LISTENER_HOST=$LISTENER_HOST' >> .env && echo 'LISTENER_PORT=$LISTENER_PORT' >> .env && echo 'DISCORD_CHANNEL=$DISCORD_CHANNEL' >> .env && echo 'AUTHORIZATION_TOKEN=$AUTHORIZATION_TOKEN' >> .env && python main.py",
+	"startCommand": "echo 'DISCORD_BOT_TOKEN=$DISCORD_BOT_TOKEN' >> .env && echo 'LISTENER_HOST=$LISTENER_HOST' >> .env && echo 'LISTENER_PORT=$LISTENER_PORT' >> .env && echo 'DISCORD_CHANNEL=$DISCORD_CHANNEL' >> .env && echo 'AUTHORIZATION_TOKEN=$AUTHORIZATION_TOKEN' >> .env && cat .env",
     "restartPolicyMaxRetries": 1
   }
 }
