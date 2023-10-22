@@ -34,7 +34,7 @@ def handle_post_request():
 def run():
 
     env = dotenv_values(".env")
-    HOST = env["LISTENER_HOST"]
+    # HOST = env["LISTENER_HOST"]
     PORT = int(env["LISTENER_PORT"])
 
-    app.run(port=PORT, host=HOST)
+    app.run(port=PORT)
