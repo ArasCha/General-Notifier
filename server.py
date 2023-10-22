@@ -35,6 +35,5 @@ def run():
     env = dotenv_values(".env")
     HOST = env["LISTENER_HOST"]
     PORT = int(env["LISTENER_PORT"])
-    print("env: ", env)
 
-    # app.run(port=PORT, host=HOST)
+    app.run(port=PORT, host=HOST)

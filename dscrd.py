@@ -126,6 +126,4 @@ def set_running(val:bool) -> None:
 
 
 def starte():
-    # client.run(config["DISCORD_BOT_TOKEN"])
-    print(config)
-    print(notification_channel)
+    client.run(config["DISCORD_BOT_TOKEN"])
