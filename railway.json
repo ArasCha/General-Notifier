@@ -1,0 +1,10 @@
+
+{
+  "build": {
+    "builder": "NIXPACKS"
+  },
+  "deploy": {
+    "restartPolicyMaxRetries": 1,
+	"startCommand": "echo starting! && echo {{LISTENER_HOST}} && echo {LISTENER_HOST} && echo $LISTENER_HOST && echo ${LISTENER_HOST}"
+  }
+}
