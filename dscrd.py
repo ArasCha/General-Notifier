@@ -127,5 +127,4 @@ def set_running(val:bool) -> None:
 
 
 def starte():
-    print(os.environ)
     client.run(config["DISCORD_BOT_TOKEN"])
