@@ -3,6 +3,7 @@ from datetime import datetime
 from dotenv import dotenv_values
 from discord.ext import commands
 import asyncio
+import os
 
 
 
@@ -126,4 +127,5 @@ def set_running(val:bool) -> None:
 
 
 def starte():
+    print(os.environ)
     client.run(config["DISCORD_BOT_TOKEN"])

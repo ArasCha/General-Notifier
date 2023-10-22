@@ -2,6 +2,7 @@ import json
 from dotenv import dotenv_values
 from flask import Flask, request
 import asyncio
+import os
 
 
 app = Flask(__name__)
@@ -32,6 +33,7 @@ def handle_post_request():
 
 def run():
 
+    print(os.environ)
     env = dotenv_values(".env")
     HOST = env["LISTENER_HOST"]
     PORT = int(env["LISTENER_PORT"])
