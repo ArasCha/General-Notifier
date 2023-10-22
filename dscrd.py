@@ -11,8 +11,7 @@ client = commands.Bot(command_prefix = '!')
 
 running = True
 
-config = dotenv_values(".env")
-notification_channel = int(config["DISCORD_CHANNEL"])
+notification_channel = int(os.environ["DISCORD_CHANNEL"])
 
 
 #-----------------------------------------------------------------------------------------
@@ -127,4 +126,4 @@ def set_running(val:bool) -> None:
 
 
 def starte():
-    client.run(config["DISCORD_BOT_TOKEN"])
+    client.run(os.environ["DISCORD_BOT_TOKEN"])
