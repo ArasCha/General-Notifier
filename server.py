@@ -11,14 +11,14 @@ app = Flask(__name__)
 def handle_post_request():
 
     try:
+        return "si"
         content = request.get_data().decode("utf-8")
         data = json.loads(content)
         if data["authorization"] != dotenv_values(".env")["AUTHORIZATION_TOKEN"]:
             return 'Bad authorization token'
         
         try:
-            from dscrd import notifier, client
-            asyncio.run_coroutine_threadsafe(notifier(data["message"]), client.loop)
+            return "oui"
 
         except Exception as e:
             print(e)
