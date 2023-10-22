@@ -14,7 +14,7 @@ def handle_post_request():
     try:
         content = request.get_data().decode("utf-8")
         data = json.loads(content)
-        if data["authorization"] != os.environ["AUTHORIZATION_TOKEN"]:
+        if data["authorization"] != dotenv_values(".env")["AUTHORIZATION_TOKEN"]:
             return 'Bad authorization token'
         
         try:
@@ -33,8 +33,8 @@ def handle_post_request():
 
 def run():
 
-    print(os.environ)
-    HOST = os.environ["LISTENER_HOST"]
-    PORT = int(os.environ["LISTENER_PORT"])
+    env = dotenv_values(".env")
+    HOST = env["LISTENER_HOST"]
+    PORT = int(env["LISTENER_PORT"])
 
     app.run(port=PORT, host=HOST)
