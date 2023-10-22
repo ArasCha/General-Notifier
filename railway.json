@@ -4,7 +4,7 @@
     "builder": "NIXPACKS"
   },
   "deploy": {
-	"startCommand": "echo DISCORD_BOT_TOKEN=$DISCORD_BOT_TOKEN >> /app/.env && echo LISTENER_HOST=${LISTENER_HOST} >> /app/.env && echo LISTENER_PORT=$LISTENER_PORT >> /app/.env && echo DISCORD_CHANNEL=$DISCORD_CHANNEL >> /app/.env && echo AUTHORIZATION_TOKEN=$AUTHORIZATION_TOKEN >> /app/.env && python main.py",
+	"startCommand": "echo DISCORD_BOT_TOKEN=$DISCORD_BOT_TOKEN >> /app/.env && echo LISTENER_HOST=${LISTENER_HOST} >> /app/.env && echo LISTENER_PORT=$LISTENER_PORT >> /app/.env && echo DISCORD_CHANNEL=$DISCORD_CHANNEL >> /app/.env && echo AUTHORIZATION_TOKEN=$AUTHORIZATION_TOKEN >> /app/.env && pip install waitress && waitress-serve --host server:run",
     "restartPolicyMaxRetries": 1
   }
 }

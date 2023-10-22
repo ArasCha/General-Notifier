@@ -11,6 +11,7 @@ app = Flask(__name__)
 def handle_post_request():
 
     try:
+        print("a request is received")
         return "si"
         content = request.get_data().decode("utf-8")
         data = json.loads(content)
