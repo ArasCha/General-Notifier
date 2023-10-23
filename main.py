@@ -1,20 +1,20 @@
-from flask import Flask, jsonify
+from flask import Flask, request
 import os
+from dotenv import dotenv_values
+import json
 
 app = Flask(__name__)
 
 
 @app.route('/')
 def index():
-    return jsonify({"Choo Choo": "Welcome to your Flask app 🚅"})
+    return '{"Choo Choo": "Welcome to your Flask app 🚅"}'
 
 
 @app.route("/", methods=["POST"])
 def handle_post_request():
 
     try:
-        print("a request is received")
-        return "si"
         content = request.get_data().decode("utf-8")
         data = json.loads(content)
         if data["authorization"] != dotenv_values(".env")["AUTHORIZATION_TOKEN"]:
