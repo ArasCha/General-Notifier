@@ -20,18 +20,23 @@ def handle_post_request():
         content = request.get_data().decode("utf-8")
         data = json.loads(content)
         print("data:", data)
-        if data["authorization"] != dotenv_values(".env")["AUTHORIZATION_TOKEN"]:
+        print(os.getenv("AUTHORIZATION_TOKEN"))
+        print(dotenv_values(".env"))
+        if data["authorization"] != os.getenv("AUTHORIZATION_TOKEN"):
             return 'Bad authorization token'
         
         try:
             return "oui"
 
-        except Exception as e:
-            print(e)
-            return "Server error. The Discord bot might not be launched"
+        except Exception:
+            return f"""Server error. The Discord bot might not be launched:
+                {traceback.format_exc()}
+            """
 
-    except Exception as e:
-        return 'Send JSON data in the format {"message":"...", "authorization":"..."}:' + f"\n{e}" + traceback.format_exc()
+    except Exception:
+        return f'''Send JSON data in the format {"message":"...", "authorization":"..."}:
+            {traceback.format_exc()}
+        '''
 
     return "OK"
 
