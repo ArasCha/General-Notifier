@@ -17,6 +17,7 @@ def handle_post_request():
     try:
         content = request.get_data().decode("utf-8")
         data = json.loads(content)
+        print("received_data:", data)
         if data["authorization"] != dotenv_values(".env")["AUTHORIZATION_TOKEN"]:
             return 'Bad authorization token'
         
