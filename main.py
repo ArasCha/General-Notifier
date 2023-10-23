@@ -2,6 +2,8 @@ from flask import Flask, request
 import os
 from dotenv import dotenv_values
 import json
+import traceback
+
 
 app = Flask(__name__)
 
@@ -14,13 +16,10 @@ def index():
 @app.route("/", methods=["POST"])
 def handle_post_request():
 
-    print(request)
     try:
-        print(request.get_data())
         content = request.get_data().decode("utf-8")
-        print(content)
         data = json.loads(content)
-        print(data)
+        print("data:", data)
         if data["authorization"] != dotenv_values(".env")["AUTHORIZATION_TOKEN"]:
             return 'Bad authorization token'
         
@@ -32,7 +31,7 @@ def handle_post_request():
             return "Server error. The Discord bot might not be launched"
 
     except Exception as e:
-        return 'Send JSON data in the format {"message":"...", "authorization":"..."}:' + f"\n{e.with_traceback()}"
+        return 'Send JSON data in the format {"message":"...", "authorization":"..."}:' + f"\n{e}" + traceback.format_exc()
 
     return "OK"
 
