@@ -1,8 +1,8 @@
 import discord
 from datetime import datetime
-from dotenv import dotenv_values
 from discord.ext import commands
 import asyncio
+import os
 
 
 
@@ -10,8 +10,8 @@ client = commands.Bot(command_prefix = '!')
 
 running = True
 
-config = dotenv_values(".env")  
-notification_channel = int(config["DISCORD_CHANNEL"])
+
+notification_channel = int(os.getenv("DISCORD_CHANNEL"))
 
 
 #-----------------------------------------------------------------------------------------
