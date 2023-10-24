@@ -7,6 +7,10 @@ import gunicorn.app.base
 
 
 app = Flask(__name__)
+options = {
+    'bind': f'0.0.0.0:{os.getenv("PORT", default=5000)}',
+    'workers': 1,
+}
 
 
 @app.route("/", methods=["POST"])
@@ -46,13 +50,3 @@ class App(gunicorn.app.base.BaseApplication):
 
     def load(self):
         return self.application
-
-
-def run():
-
-    options = {
-        'bind': f'0.0.0.0:{os.getenv("PORT", default=5000)}',
-        'workers': 1,
-    }
-
-    App(app, options).run()
