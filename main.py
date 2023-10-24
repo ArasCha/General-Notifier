@@ -1,55 +1,12 @@
-from flask import Flask, request
+from dscrd import client
+from server import run
+import concurrent.futures
 import os
-import json
-import traceback
-import gunicorn.app.base
 
 
-app = Flask(__name__)
 
 
-@app.route("/", methods=["POST"])
-def handle_post_request():
+if __name__ == "__main__":
 
-    try:
-        content = request.get_data().decode("utf-8")
-        data = json.loads(content)
-        if data["authorization"] != os.getenv("AUTHORIZATION_TOKEN"):
-            return 'Bad authorization token'
-        
-        try:
-            return "oui"
-
-        except Exception:
-            return f"""Server error. The Discord bot might not be launched:
-                {traceback.format_exc()}
-            """
-
-    except Exception:
-        return f'''Send JSON data in the format {"message":"...", "authorization":"..."}:
-            {traceback.format_exc()}
-        '''
-
-
-class StandaloneApplication(gunicorn.app.base.BaseApplication):
-    def __init__(self, application, options=None):
-        self.options = options or {}
-        self.application = application
-        super().__init__()
-
-    def load_config(self):
-        for key, value in self.options.items():
-            if key in self.cfg.settings and value is not None:
-                self.cfg.set(key, value)
-
-    def load(self):
-        return self.application
-
-
-if __name__ == '__main__':
-    options = {
-        'bind': f'0.0.0.0:{os.getenv("PORT", default=5000)}',
-        'workers': 1,
-    }
-
-    StandaloneApplication(app, options).run()
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        futures = [executor.submit(run), client.run(os.getenv("DISCORD_BOT_TOKEN"))]
