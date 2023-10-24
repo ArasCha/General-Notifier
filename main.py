@@ -2,6 +2,7 @@ from flask import Flask, request
 import os
 import json
 import traceback
+import gunicorn.app.base
 
 
 app = Flask(__name__)
@@ -30,5 +31,25 @@ def handle_post_request():
         '''
 
 
+class StandaloneApplication(gunicorn.app.base.BaseApplication):
+    def __init__(self, application, options=None):
+        self.options = options or {}
+        self.application = application
+        super().__init__()
+
+    def load_config(self):
+        for key, value in self.options.items():
+            if key in self.cfg.settings and value is not None:
+                self.cfg.set(key, value)
+
+    def load(self):
+        return self.application
+
+
 if __name__ == '__main__':
-    app.run(debug=True, host = "0.0.0.0", port=os.getenv("PORT", default=5000))
+    options = {
+        'bind': f'0.0.0.0:{os.getenv("PORT", default=5000)}',
+        'workers': 1,
+    }
+
+    StandaloneApplication(app, options).run()
