@@ -120,3 +120,7 @@ async def already_sent(msg:str, channel:discord.TextChannel) -> bool:
 def set_running(val:bool) -> None:
     import dscrd as ds
     ds.running = val
+
+def start():
+
+    client.run(os.getenv("DISCORD_BOT_TOKEN"))
