@@ -1,16 +1,14 @@
-from dscrd import start
-from server import run
+from dscrd import client
+from server import App, options, app
 import concurrent.futures
 import os
 import asyncio
 
 
 
-async def func():
-    await asyncio.gather(asyncio.to_thread(run), asyncio.to_thread(start))
 
 if __name__ == "__main__":
 
-    
-    asyncio.run(func())
-    
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        futures = [App(app, options).run(), asyncio.run(client.start(os.getenv("DISCORD_BOT_TOKEN")))]
+        
