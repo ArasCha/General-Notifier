@@ -17,7 +17,7 @@ def handle_post_request():
             return 'Bad authorization token'
         
         try:
-            from dscrd import notifier, client
+            from bot import notifier, client
             asyncio.run_coroutine_threadsafe(notifier(data["message"]), client.loop)
 
         except Exception as e:

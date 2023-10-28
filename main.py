@@ -1,4 +1,4 @@
-from dscrd import client
+from bot import client
 from server import run
 import concurrent.futures
 from dotenv import dotenv_values
