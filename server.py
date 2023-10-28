@@ -22,16 +22,13 @@ def handle_post_request():
             asyncio.run_coroutine_threadsafe(notifier(data["message"]), client.loop)
             return "OK"
 
-        except Exception as e:
-            print(e)
+        except:
             return f"""Server error. Error executing the notifier:
-                {traceback.format_exc()}
-            """
-
-    except Exception as e:
-        return f'''Server error:
-            {traceback.format_exc()}
-        '''
+                {traceback.format_exc()}"""
+            
+    except:
+        return f"""Server error:
+            {traceback.format_exc()}"""
 
 
 
