@@ -10,8 +10,8 @@ client = commands.Bot(command_prefix = '!')
 
 running = True
 
-config = dotenv_values(".env")
-notification_channel = int(config["DISCORD_CHANNEL"])
+env = dotenv_values(".env")
+notification_channel = int(env["DISCORD_CHANNEL"])
 
 
 #-----------------------------------------------------------------------------------------

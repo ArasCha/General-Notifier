@@ -1,14 +1,11 @@
-from bot import client
-from server import run
+from bot import client, env
+from server import run as run_server
 import concurrent.futures
-from dotenv import dotenv_values
 
 
 
 
 if __name__ == "__main__":
 
-    env = dotenv_values(".env")
-
     with concurrent.futures.ThreadPoolExecutor() as executor:
-        futures = [executor.submit(run), client.run(env["DISCORD_BOT_TOKEN"])]
+        futures = [executor.submit(run_server), client.run(env["DISCORD_BOT_TOKEN"])]

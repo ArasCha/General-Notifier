@@ -1,7 +1,9 @@
 import json
-from dotenv import dotenv_values
 from flask import Flask, request
 import asyncio
+from bot import notifier, client, env
+import traceback
+
 
 
 app = Flask(__name__)
@@ -13,26 +15,28 @@ def handle_post_request():
     try:
         content = request.get_data().decode("utf-8")
         data = json.loads(content)
-        if data["authorization"] != dotenv_values(".env")["AUTHORIZATION_TOKEN"]:
+        if data["authorization"] != env["AUTHORIZATION_TOKEN"]:
             return 'Bad authorization token'
         
         try:
-            from bot import notifier, client
             asyncio.run_coroutine_threadsafe(notifier(data["message"]), client.loop)
+            return "OK"
 
         except Exception as e:
             print(e)
-            return "Server error. The Discord bot might not be launched"
+            return f"""Server error. Error executing the notifier:
+                {traceback.format_exc()}
+            """
 
     except Exception as e:
-        return 'Send JSON data in the format {"message":"...", "authorization":"..."}:' + f"\n{e}"
+        return f'''Server error:
+            {traceback.format_exc()}
+        '''
 
-    return "OK"
 
 
 def run():
 
-    env = dotenv_values(".env")
     HOST = env["LISTENER_HOST"]
     PORT = int(env["LISTENER_PORT"])
 
