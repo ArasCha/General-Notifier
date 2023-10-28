@@ -36,5 +36,5 @@ def run():
 
     HOST = env["LISTENER_HOST"]
     PORT = int(env["LISTENER_PORT"])
-
-    app.run(port=PORT, host=HOST)
+    import os
+    app.run(port=os.getenv("PORT", default=5000), host=HOST)
