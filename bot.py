@@ -81,7 +81,6 @@ async def notifier(msg:str) -> None:
     
     channel: discord.TextChannel = client.get_channel(notification_channel)
 
-    await clean_old_msgs(channel)
     if not await already_sent(msg, channel):
         await channel.send(msg)
 
