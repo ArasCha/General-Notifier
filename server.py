@@ -2,20 +2,37 @@ from flask import Flask, request, jsonify
 import asyncio
 from bot import notifier, client, env
 import traceback
+from functools import wraps
 
 
 
 app = Flask(__name__)
 
+def require_at(fn):
+    """
+    Requirement for authentification token
+    """
+    @wraps(fn)
+    def wrapper(*args, **kwargs):
+        """
+        Must be executed at each endpoint before handling the request
+        """
+        auth = request.headers.get("Authorization", "") # return "" if no "Authorization" provided
+
+        if auth != env["AUTHORIZATION_TOKEN"]:
+            return jsonify(error="Bad authorization token"), 401
+
+        return fn(*args, **kwargs)
 
 @app.route("/", methods=["POST"])
+@require_at
 def handle_post_request():
     """
     Accepts requests in such format:
     POST
     url = http://{env["LISTENER_HOST"]}:{env["LISTENER_PORT"]}
-    headers = { "Accept-Charset": "utf-8" }
-    payload = {"authorization": <authorization>, "message": <message>}
+    headers = { "Accept-Charset": "utf-8" , "Authorization": <authorization> }
+    payload = {"message": <message>}
     requests.post(url, headers, json=payload)
     """
     try:
@@ -24,11 +41,8 @@ def handle_post_request():
         if not data:
             return jsonify(error="Invalid or missing JSON"), 400
 
-        if "authorization" not in data or "message" not in data:
-            return jsonify(error="Missing 'authorization' or 'message'"), 400
-
-        if data["authorization"] != env["AUTHORIZATION_TOKEN"]:
-            return jsonify(error="Bad authorization token"), 401
+        if "message" not in data:
+            return jsonify(error="Missing 'message'"), 400
         
         try:
             asyncio.run_coroutine_threadsafe(notifier(data["message"]), client.loop)
@@ -42,6 +56,17 @@ def handle_post_request():
         return jsonify(error=f"""Server error. Error executing the notifier:
                 {traceback.format_exc()}"""), 500
 
+
+@app.route("/ping", methods=["GET"])
+@require_at
+def ping():
+    """
+    Endpoint to test connection with this General Notifier
+    """
+    return jsonify(
+        status="ok",
+        message="API reachable"
+    ), 200
 
 
 def run():
