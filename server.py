@@ -23,6 +23,8 @@ def require_at(fn):
             return jsonify(error="Bad authorization token"), 401
 
         return fn(*args, **kwargs)
+    
+    return wrapper
 
 @app.route("/", methods=["POST"])
 @require_at
