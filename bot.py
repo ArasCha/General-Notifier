@@ -81,7 +81,7 @@ async def notifier(msg:str, repeat=True) -> None:
     
     channel: discord.TextChannel = client.get_channel(notification_channel)
 
-    if repeat:
+    if not repeat:
         if await already_sent(msg, channel):
             return
     await channel.send(msg)
