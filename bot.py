@@ -77,12 +77,14 @@ async def clear(context:commands.Context, nb) -> None: # delete the last nb mess
 #-------------------------------------NOTIFIER-----------------------------------------
 
 
-async def notifier(msg:str) -> None:
+async def notifier(msg:str, repeat=True) -> None:
     
     channel: discord.TextChannel = client.get_channel(notification_channel)
 
-    if not await already_sent(msg, channel):
-        await channel.send(msg)
+    if repeat:
+        if await already_sent(msg, channel):
+            return
+    await channel.send(msg)
 
 
 async def get_previous_msgs(channel: discord.TextChannel) -> list[discord.Message]:
